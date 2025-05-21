@@ -1,0 +1,523 @@
+-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw
+
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-05-20 17:36:59
+-- Luau version 6, Types version 3
+-- Time taken: 0.013617 seconds
+
+-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+local clamp_upvr = math.clamp
+local exp_upvr = math.exp
+local ContextActionService_upvr = game:GetService("ContextActionService")
+local Players_upvr = game:GetService("Players")
+local RunService_upvr = game:GetService("RunService")
+local StarterGui_upvr = game:GetService("StarterGui")
+local UserInputService_upvr = game:GetService("UserInputService")
+local Workspace_upvr = game:GetService("Workspace")
+local GameSettings_upvr = UserSettings().GameSettings
+local LocalPlayer_upvw = Players_upvr.LocalPlayer
+if not LocalPlayer_upvw then
+	Players_upvr:GetPropertyChangedSignal("LocalPlayer"):Wait()
+	LocalPlayer_upvw = Players_upvr.LocalPlayer
+end
+for _, v in next, LocalPlayer_upvw:WaitForChild("PlayerGui", math.huge):GetChildren() do
+	if v.Name == "Freecam" and not v:GetAttribute("Real") and v ~= script.Parent then
+		v:Destroy()
+	end
+end
+local CurrentCamera_2_upvw = Workspace_upvr.CurrentCamera
+Workspace_upvr:GetPropertyChangedSignal("CurrentCamera"):Connect(function() -- Line 41
+	--[[ Upvalues[2]:
+		[1]: Workspace_upvr (readonly)
+		[2]: CurrentCamera_2_upvw (read and write)
+	]]
+	local CurrentCamera = Workspace_upvr.CurrentCamera
+	if CurrentCamera then
+		CurrentCamera_2_upvw = CurrentCamera
+	end
+end)
+local pcall_result1, pcall_result2 = pcall(function() -- Line 50
+	return UserSettings():IsUserFeatureEnabled("UserExitFreecamBreaksWithShiftlock")
+end)
+local _ = {Enum.KeyCode.LeftShift, Enum.KeyCode.P}
+local tbl_upvr_5 = {}
+tbl_upvr_5.__index = tbl_upvr_5
+function tbl_upvr_5.new(arg1, arg2) -- Line 77
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_5 (readonly)
+	]]
+	local setmetatable_result1 = setmetatable({}, tbl_upvr_5)
+	setmetatable_result1.f = arg1
+	setmetatable_result1.p = arg2
+	setmetatable_result1.v = arg2 * 0
+	return setmetatable_result1
+end
+function tbl_upvr_5.Update(arg1, arg2, arg3) -- Line 85
+	--[[ Upvalues[1]:
+		[1]: exp_upvr (readonly)
+	]]
+	local var30 = arg1.f * 2 * math.pi
+	local v_10 = arg1.v
+	local var32 = arg3 - arg1.p
+	local exp_upvr_result1 = exp_upvr(-var30 * arg2)
+	local var34 = arg3 + (v_10 * arg2 - var32 * (var30 * arg2 + 1)) * exp_upvr_result1
+	arg1.p = var34
+	arg1.v = (var30 * arg2 * (var32 * var30 - v_10) + v_10) * exp_upvr_result1
+	return var34
+end
+function tbl_upvr_5.Reset(arg1, arg2) -- Line 102
+	arg1.p = arg2
+	arg1.v = arg2 * 0
+end
+local zero_vector3_upvw = Vector3.new()
+local zero_vector2_upvw = Vector2.new()
+local var37_upvw = 0
+local any_new_result1_upvr = tbl_upvr_5.new(1.5, Vector3.new())
+local any_new_result1_upvr_3 = tbl_upvr_5.new(1, Vector2.new())
+local any_new_result1_upvr_2 = tbl_upvr_5.new(4, 0)
+local tbl_upvr_4 = {}
+local function _(arg1) -- Line 125, Named "fCurve"
+	--[[ Upvalues[1]:
+		[1]: exp_upvr (readonly)
+	]]
+	return (exp_upvr(2 * arg1) - 1) / 6.38905609893065
+end
+local function _(arg1) -- Line 129, Named "fDeadzone"
+	--[[ Upvalues[1]:
+		[1]: exp_upvr (readonly)
+	]]
+	return (exp_upvr((2) * ((arg1 - 0.15) / 0.85)) - 1) / 6.38905609893065
+end
+local sign_upvr = math.sign
+local abs_upvr = math.abs
+local function thumbstickCurve_upvw(arg1) -- Line 133, Named "thumbstickCurve"
+	--[[ Upvalues[4]:
+		[1]: sign_upvr (readonly)
+		[2]: abs_upvr (readonly)
+		[3]: exp_upvr (readonly)
+		[4]: clamp_upvr (readonly)
+	]]
+	return sign_upvr(arg1) * clamp_upvr((exp_upvr((2) * ((abs_upvr(arg1) - 0.15) / 0.85)) - 1) / 6.38905609893065, 0, 1)
+end
+local tbl_upvr_2 = {
+	ButtonX = 0;
+	ButtonY = 0;
+	DPadDown = 0;
+	DPadUp = 0;
+	ButtonL2 = 0;
+	ButtonR2 = 0;
+	Thumbstick1 = Vector2.new();
+	Thumbstick2 = Vector2.new();
+}
+local tbl_upvr_9 = {
+	W = 0;
+	A = 0;
+	S = 0;
+	D = 0;
+	E = 0;
+	Q = 0;
+	U = 0;
+	H = 0;
+	J = 0;
+	K = 0;
+	I = 0;
+	Y = 0;
+	Up = 0;
+	Down = 0;
+	LeftShift = 0;
+	RightShift = 0;
+}
+local tbl_upvr = {
+	Delta = Vector2.new();
+	MouseWheel = 0;
+}
+local var47_upvw = 1
+function tbl_upvr_4.Vel(arg1) -- Line 184
+	--[[ Upvalues[6]:
+		[1]: var47_upvw (read and write)
+		[2]: tbl_upvr_9 (readonly)
+		[3]: clamp_upvr (readonly)
+		[4]: thumbstickCurve_upvw (read and write)
+		[5]: tbl_upvr_2 (readonly)
+		[6]: UserInputService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	var47_upvw = clamp_upvr(var47_upvw + arg1 * (tbl_upvr_9.Up - tbl_upvr_9.Down) * 0.75, 0.01, 4)
+	local any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.LeftShift)
+	if not any_IsKeyDown_result1 then
+		any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.RightShift)
+	end
+	if any_IsKeyDown_result1 then
+	else
+	end
+	return (Vector3.new(thumbstickCurve_upvw(tbl_upvr_2.Thumbstick1.X), thumbstickCurve_upvw(tbl_upvr_2.ButtonR2) - thumbstickCurve_upvw(tbl_upvr_2.ButtonL2), thumbstickCurve_upvw(-tbl_upvr_2.Thumbstick1.Y)) * Vector3.new(1, 1, 1) + Vector3.new(tbl_upvr_9.D - tbl_upvr_9.A + tbl_upvr_9.K - tbl_upvr_9.H, tbl_upvr_9.E - tbl_upvr_9.Q + tbl_upvr_9.I - tbl_upvr_9.Y, tbl_upvr_9.S - tbl_upvr_9.W + tbl_upvr_9.J - tbl_upvr_9.U) * Vector3.new(1, 1, 1)) * (var47_upvw * 1)
+end
+local var49_upvr = Vector2.new(1, 1) * 0.39269908169872414
+local var50_upvr = Vector2.new(1, 1) * 0.04908738521234052
+function tbl_upvr_4.Pan(arg1) -- Line 204
+	--[[ Upvalues[5]:
+		[1]: thumbstickCurve_upvw (read and write)
+		[2]: tbl_upvr_2 (readonly)
+		[3]: var49_upvr (readonly)
+		[4]: tbl_upvr (readonly)
+		[5]: var50_upvr (readonly)
+	]]
+	tbl_upvr.Delta = Vector2.new()
+	return Vector2.new(thumbstickCurve_upvw(tbl_upvr_2.Thumbstick2.Y), thumbstickCurve_upvw(-tbl_upvr_2.Thumbstick2.X)) * var49_upvr + tbl_upvr.Delta * var50_upvr
+end
+function tbl_upvr_4.Fov(arg1) -- Line 214
+	--[[ Upvalues[2]:
+		[1]: tbl_upvr_2 (readonly)
+		[2]: tbl_upvr (readonly)
+	]]
+	tbl_upvr.MouseWheel = 0
+	return (tbl_upvr_2.ButtonX - tbl_upvr_2.ButtonY) * 0.25 + tbl_upvr.MouseWheel * 1
+end
+local function Keypress_upvr(arg1, arg2, arg3) -- Line 222, Named "Keypress"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_9 (readonly)
+	]]
+	local KeyCode = arg3.KeyCode
+	if arg2 == Enum.UserInputState.Begin then
+		KeyCode = 1
+	else
+		KeyCode = 0
+	end
+	tbl_upvr_9[KeyCode.Name] = KeyCode
+	return Enum.ContextActionResult.Sink
+end
+local function GpButton_upvr(arg1, arg2, arg3) -- Line 227, Named "GpButton"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_2 (readonly)
+	]]
+	local KeyCode_2 = arg3.KeyCode
+	if arg2 == Enum.UserInputState.Begin then
+		KeyCode_2 = 1
+	else
+		KeyCode_2 = 0
+	end
+	tbl_upvr_2[KeyCode_2.Name] = KeyCode_2
+	return Enum.ContextActionResult.Sink
+end
+local function MousePan_upvr(arg1, arg2, arg3) -- Line 232, Named "MousePan"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr (readonly)
+	]]
+	local Delta = arg3.Delta
+	tbl_upvr.Delta = Vector2.new(-Delta.y, -Delta.x)
+	return Enum.ContextActionResult.Sink
+end
+local function Thumb_upvr(arg1, arg2, arg3) -- Line 238, Named "Thumb"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_2 (readonly)
+	]]
+	tbl_upvr_2[arg3.KeyCode.Name] = arg3.Position
+	return Enum.ContextActionResult.Sink
+end
+local function Trigger_upvr(arg1, arg2, arg3) -- Line 243, Named "Trigger"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_2 (readonly)
+	]]
+	tbl_upvr_2[arg3.KeyCode.Name] = arg3.Position.z
+	return Enum.ContextActionResult.Sink
+end
+local function MouseWheel_upvr(arg1, arg2, arg3) -- Line 248, Named "MouseWheel"
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr (readonly)
+	]]
+	tbl_upvr[arg3.UserInputType.Name] = -arg3.Position.z
+	return Enum.ContextActionResult.Sink
+end
+local function _(arg1) -- Line 253, Named "Zero"
+	for i_2, v_2 in pairs(arg1) do
+		arg1[i_2] = v_2 * 0
+	end
+end
+local Value_upvr = Enum.ContextActionPriority.High.Value
+function tbl_upvr_4.StartCapture() -- Line 259
+	--[[ Upvalues[8]:
+		[1]: ContextActionService_upvr (readonly)
+		[2]: Keypress_upvr (readonly)
+		[3]: Value_upvr (readonly)
+		[4]: MousePan_upvr (readonly)
+		[5]: MouseWheel_upvr (readonly)
+		[6]: GpButton_upvr (readonly)
+		[7]: Trigger_upvr (readonly)
+		[8]: Thumb_upvr (readonly)
+	]]
+	ContextActionService_upvr:BindActionAtPriority("FreecamKeyboard", Keypress_upvr, false, Value_upvr, Enum.KeyCode.W, Enum.KeyCode.U, Enum.KeyCode.A, Enum.KeyCode.H, Enum.KeyCode.S, Enum.KeyCode.J, Enum.KeyCode.D, Enum.KeyCode.K, Enum.KeyCode.E, Enum.KeyCode.I, Enum.KeyCode.Q, Enum.KeyCode.Y, Enum.KeyCode.Up, Enum.KeyCode.Down)
+	ContextActionService_upvr:BindActionAtPriority("FreecamMousePan", MousePan_upvr, false, Value_upvr, Enum.UserInputType.MouseMovement)
+	ContextActionService_upvr:BindActionAtPriority("FreecamMouseWheel", MouseWheel_upvr, false, Value_upvr, Enum.UserInputType.MouseWheel)
+	ContextActionService_upvr:BindActionAtPriority("FreecamGamepadButton", GpButton_upvr, false, Value_upvr, Enum.KeyCode.ButtonX, Enum.KeyCode.ButtonY)
+	ContextActionService_upvr:BindActionAtPriority("FreecamGamepadTrigger", Trigger_upvr, false, Value_upvr, Enum.KeyCode.ButtonR2, Enum.KeyCode.ButtonL2)
+	ContextActionService_upvr:BindActionAtPriority("FreecamGamepadThumbstick", Thumb_upvr, false, Value_upvr, Enum.KeyCode.Thumbstick1, Enum.KeyCode.Thumbstick2)
+end
+function tbl_upvr_4.StopCapture() -- Line 276
+	--[[ Upvalues[5]:
+		[1]: var47_upvw (read and write)
+		[2]: tbl_upvr_2 (readonly)
+		[3]: tbl_upvr_9 (readonly)
+		[4]: tbl_upvr (readonly)
+		[5]: ContextActionService_upvr (readonly)
+	]]
+	var47_upvw = 1
+	local var72 = tbl_upvr_2
+	for i_3, v_3 in pairs(var72) do
+		var72[i_3] = v_3 * 0
+	end
+	for i_4, v_4 in pairs(tbl_upvr_9) do
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		tbl_upvr_9[i_4] = v_4 * 0
+		local _
+	end
+	for i_5, v_5 in pairs(tbl_upvr) do
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		tbl_upvr[i_5] = v_5 * 0
+		local _
+	end
+	ContextActionService_upvr:UnbindAction("FreecamKeyboard")
+	ContextActionService_upvr:UnbindAction("FreecamMousePan")
+	ContextActionService_upvr:UnbindAction("FreecamMouseWheel")
+	ContextActionService_upvr:UnbindAction("FreecamGamepadButton")
+	ContextActionService_upvr:UnbindAction("FreecamGamepadTrigger")
+	ContextActionService_upvr:UnbindAction("FreecamGamepadThumbstick")
+end
+local rad_upvr = math.rad
+local tan_upvr = math.tan
+local sqrt_upvr = math.sqrt
+local var87_upvr = Vector2.new(0.75, 1) * 8
+local function StepFreecam_upvr(arg1) -- Line 293, Named "StepFreecam"
+	--[[ Upvalues[13]:
+		[1]: any_new_result1_upvr (readonly)
+		[2]: tbl_upvr_4 (readonly)
+		[3]: any_new_result1_upvr_3 (readonly)
+		[4]: any_new_result1_upvr_2 (readonly)
+		[5]: var37_upvw (read and write)
+		[6]: rad_upvr (readonly)
+		[7]: tan_upvr (readonly)
+		[8]: sqrt_upvr (readonly)
+		[9]: clamp_upvr (readonly)
+		[10]: zero_vector2_upvw (read and write)
+		[11]: var87_upvr (readonly)
+		[12]: zero_vector3_upvw (read and write)
+		[13]: CurrentCamera_2_upvw (read and write)
+	]]
+	local sqrt_upvr_result1 = sqrt_upvr(0.7002075382097097 / tan_upvr(rad_upvr(var37_upvw / 2)))
+	var37_upvw = clamp_upvr(var37_upvw + (any_new_result1_upvr_2:Update(arg1, tbl_upvr_4.Fov(arg1)) * 300) * (arg1 / sqrt_upvr_result1), 1, 120)
+	zero_vector2_upvw += (any_new_result1_upvr_3:Update(arg1, tbl_upvr_4.Pan(arg1)) * var87_upvr) * (arg1 / sqrt_upvr_result1)
+	zero_vector2_upvw = Vector2.new(clamp_upvr(zero_vector2_upvw.x, (-math.pi/2), (math.pi/2)), zero_vector2_upvw.y % (-math.pi*2))
+	local var89 = CFrame.new(zero_vector3_upvw) * CFrame.fromOrientation(zero_vector2_upvw.x, zero_vector2_upvw.y, 0) * CFrame.new(any_new_result1_upvr:Update(arg1, tbl_upvr_4.Vel(arg1)) * Vector3.new(64, 64, 64) * arg1)
+	zero_vector3_upvw = var89.p
+	CurrentCamera_2_upvw.CFrame = var89
+	CurrentCamera_2_upvw.Focus = var89
+	CurrentCamera_2_upvw.FieldOfView = var37_upvw
+end
+local function _() -- Line 312, Named "CheckMouseLockAvailability"
+	--[[ Upvalues[2]:
+		[1]: Players_upvr (readonly)
+		[2]: GameSettings_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 28 start (CF ANALYSIS FAILED)
+	local var94
+	if Players_upvr.LocalPlayer.DevComputerMovementMode ~= var94 then
+	else
+	end
+	var94 = GameSettings_upvr.ControlMode
+	if var94 ~= Enum.ControlMode.MouseLockSwitch then
+		-- KONSTANTWARNING: GOTO [25] #17
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 28 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [24] 16. Error Block 30 start (CF ANALYSIS FAILED)
+	if GameSettings_upvr.ComputerMovementMode ~= Enum.ComputerMovementMode.ClickToMove then
+		var94 = false
+	else
+		var94 = true
+	end
+	if Players_upvr.LocalPlayer.DevEnableMouseLock then
+		if true then
+			if not var94 then
+			end
+		end
+	end
+	do
+		return not true
+	end
+	-- KONSTANTERROR: [24] 16. Error Block 30 end (CF ANALYSIS FAILED)
+end
+local tbl_upvr_3 = {}
+local var96_upvw
+local var97_upvw
+local var98_upvw
+local var99_upvw
+local var100_upvw
+local var101_upvw
+local tbl_upvr_8 = {}
+local tbl_upvr_7 = {
+	Chat = true;
+	Health = true;
+	PlayerList = true;
+}
+local tbl_upvr_6 = {
+	BadgesNotificationsActive = true;
+	PointsNotificationsActive = true;
+}
+local var105_upvw = pcall_result1 and pcall_result2
+function tbl_upvr_3.Push() -- Line 343
+	--[[ Upvalues[16]:
+		[1]: tbl_upvr_7 (readonly)
+		[2]: StarterGui_upvr (readonly)
+		[3]: tbl_upvr_6 (readonly)
+		[4]: LocalPlayer_upvw (read and write)
+		[5]: tbl_upvr_8 (readonly)
+		[6]: var101_upvw (read and write)
+		[7]: CurrentCamera_2_upvw (read and write)
+		[8]: var98_upvw (read and write)
+		[9]: var100_upvw (read and write)
+		[10]: var99_upvw (read and write)
+		[11]: var97_upvw (read and write)
+		[12]: UserInputService_upvr (readonly)
+		[13]: var105_upvw (read and write)
+		[14]: Players_upvr (readonly)
+		[15]: GameSettings_upvr (readonly)
+		[16]: var96_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 48 start (CF ANALYSIS FAILED)
+	for i_6 in pairs(tbl_upvr_7) do
+		tbl_upvr_7[i_6] = StarterGui_upvr:GetCoreGuiEnabled(Enum.CoreGuiType[i_6])
+		StarterGui_upvr:SetCoreGuiEnabled(Enum.CoreGuiType[i_6], false)
+	end
+	for i_7 in pairs(tbl_upvr_6) do
+		tbl_upvr_6[i_7] = StarterGui_upvr:GetCore(i_7)
+		StarterGui_upvr:SetCore(i_7, false)
+	end
+	local class_PlayerGui = LocalPlayer_upvw:FindFirstChildOfClass("PlayerGui")
+	-- KONSTANTERROR: [0] 1. Error Block 48 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [50] 40. Error Block 50 start (CF ANALYSIS FAILED)
+	for _, v_6 in pairs(class_PlayerGui:GetChildren()) do
+		if v_6:IsA("ScreenGui") and v_6.Enabled and v_6.Name ~= "Settings" and v_6.Name ~= "GlobalAnnouncement" and v_6.Name ~= "Alert" then
+			tbl_upvr_8[#tbl_upvr_8 + 1] = v_6
+			v_6.Enabled = false
+		end
+	end
+	-- KONSTANTERROR: [50] 40. Error Block 50 end (CF ANALYSIS FAILED)
+end
+function tbl_upvr_3.Pop() -- Line 383
+	--[[ Upvalues[12]:
+		[1]: var98_upvw (read and write)
+		[2]: tbl_upvr_7 (readonly)
+		[3]: StarterGui_upvr (readonly)
+		[4]: tbl_upvr_6 (readonly)
+		[5]: tbl_upvr_8 (readonly)
+		[6]: CurrentCamera_2_upvw (read and write)
+		[7]: var101_upvw (read and write)
+		[8]: var100_upvw (read and write)
+		[9]: var99_upvw (read and write)
+		[10]: UserInputService_upvr (readonly)
+		[11]: var97_upvw (read and write)
+		[12]: var96_upvw (read and write)
+	]]
+	if not var98_upvw then
+	else
+		for i_9, v_7 in pairs(tbl_upvr_7) do
+			StarterGui_upvr:SetCoreGuiEnabled(Enum.CoreGuiType[i_9], v_7)
+		end
+		for i_10, v_8 in pairs(tbl_upvr_6) do
+			StarterGui_upvr:SetCore(i_10, v_8)
+		end
+		for _, v_9 in pairs(tbl_upvr_8) do
+			if v_9.Parent then
+				v_9.Enabled = true
+			end
+		end
+		CurrentCamera_2_upvw.FieldOfView = var101_upvw
+		var101_upvw = nil
+		CurrentCamera_2_upvw.CameraType = var98_upvw
+		var98_upvw = nil
+		CurrentCamera_2_upvw.CFrame = var100_upvw
+		var100_upvw = nil
+		CurrentCamera_2_upvw.Focus = var99_upvw
+		var99_upvw = nil
+		UserInputService_upvr.MouseIconEnabled = var97_upvw
+		var97_upvw = nil
+		UserInputService_upvr.MouseBehavior = var96_upvw
+		var96_upvw = nil
+	end
+end
+local function StartFreecam_upvr() -- Line 420, Named "StartFreecam"
+	--[[ Upvalues[11]:
+		[1]: CurrentCamera_2_upvw (read and write)
+		[2]: zero_vector2_upvw (read and write)
+		[3]: zero_vector3_upvw (read and write)
+		[4]: var37_upvw (read and write)
+		[5]: any_new_result1_upvr (readonly)
+		[6]: any_new_result1_upvr_3 (readonly)
+		[7]: any_new_result1_upvr_2 (readonly)
+		[8]: tbl_upvr_3 (readonly)
+		[9]: RunService_upvr (readonly)
+		[10]: StepFreecam_upvr (readonly)
+		[11]: tbl_upvr_4 (readonly)
+	]]
+	local CFrame = CurrentCamera_2_upvw.CFrame
+	zero_vector2_upvw = Vector2.new(CFrame:toEulerAnglesYXZ())
+	zero_vector3_upvw = CFrame.p
+	var37_upvw = CurrentCamera_2_upvw.FieldOfView
+	any_new_result1_upvr:Reset(Vector3.new())
+	any_new_result1_upvr_3:Reset(Vector2.new())
+	any_new_result1_upvr_2:Reset(0)
+	tbl_upvr_3.Push()
+	RunService_upvr:BindToRenderStep("Freecam", Enum.RenderPriority.Camera.Value, StepFreecam_upvr)
+	tbl_upvr_4.StartCapture()
+end
+local function _() -- Line 435, Named "StopFreecam"
+	--[[ Upvalues[3]:
+		[1]: tbl_upvr_4 (readonly)
+		[2]: RunService_upvr (readonly)
+		[3]: tbl_upvr_3 (readonly)
+	]]
+	tbl_upvr_4.StopCapture()
+	RunService_upvr:UnbindFromRenderStep("Freecam")
+	tbl_upvr_3.Pop()
+end
+local var136_upvw = false
+LocalPlayer_upvw:GetAttributeChangedSignal("Freecam"):Connect(function() -- Line 445, Named "ToggleFreecam"
+	--[[ Upvalues[6]:
+		[1]: var136_upvw (read and write)
+		[2]: LocalPlayer_upvw (read and write)
+		[3]: StartFreecam_upvr (readonly)
+		[4]: tbl_upvr_4 (readonly)
+		[5]: RunService_upvr (readonly)
+		[6]: tbl_upvr_3 (readonly)
+	]]
+	local var137
+	if LocalPlayer_upvw:GetAttribute("Freecam") then
+		var137 = true
+	else
+		var137 = false
+	end
+	var136_upvw = var137
+	var137 = var136_upvw
+	if var137 then
+		var137 = StartFreecam_upvr
+		var137()
+	else
+		var137 = tbl_upvr_4.StopCapture
+		var137()
+		var137 = RunService_upvr:UnbindFromRenderStep
+		var137("Freecam")
+		var137 = tbl_upvr_3.Pop
+		var137()
+	end
+end)
+if LocalPlayer_upvw:GetAttribute("Freecam") then
+else
+end
+var136_upvw = false
+if var136_upvw then
+	StartFreecam_upvr()
+else
+	tbl_upvr_4.StopCapture()
+	RunService_upvr:UnbindFromRenderStep("Freecam")
+	tbl_upvr_3.Pop()
+end

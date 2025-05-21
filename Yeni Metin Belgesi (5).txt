@@ -1,0 +1,36 @@
+-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw
+
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-05-20 17:37:09
+-- Luau version 6, Types version 3
+-- Time taken: 0.000723 seconds
+
+local TextLabel_upvr = script:WaitForChild("TextLabel", 1)
+local Frame_upvr = script.Parent:WaitForChild("Frame", 5)
+local TweenService_upvr = game:GetService("TweenService")
+function shared.Alert(arg1, arg2) -- Line 9
+	--[[ Upvalues[3]:
+		[1]: TextLabel_upvr (readonly)
+		[2]: Frame_upvr (readonly)
+		[3]: TweenService_upvr (readonly)
+	]]
+	local clone_upvr = TextLabel_upvr:Clone()
+	clone_upvr.Text = arg1
+	clone_upvr.Parent = Frame_upvr
+	task.spawn(function() -- Line 14
+		--[[ Upvalues[3]:
+			[1]: arg2 (readonly)
+			[2]: TweenService_upvr (copied, readonly)
+			[3]: clone_upvr (readonly)
+		]]
+		task.wait(arg2)
+		local any_Create_result1 = TweenService_upvr:Create(clone_upvr, TweenInfo.new(0.1), {
+			TextTransparency = 1;
+		})
+		any_Create_result1:Play()
+		any_Create_result1:Destroy()
+		any_Create_result1.Completed:Wait()
+		clone_upvr:Destroy()
+	end)
+end
