@@ -1,0 +1,1657 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-05-20 17:09:57
+-- Luau version 6, Types version 3
+-- Time taken: 0.045808 seconds
+
+-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+local Players_upvr = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService_upvr = game:GetService("UserInputService")
+local TweenService_upvr = game:GetService("TweenService")
+local CollectionService_upvr = game:GetService("CollectionService")
+local GuiService_upvr = game:GetService("GuiService")
+local LocalPlayer_upvr = Players_upvr.LocalPlayer
+local Character_upvr = LocalPlayer_upvr.Character
+if not Character_upvr then
+	Character_upvr = LocalPlayer_upvr.CharacterAdded:Wait()
+end
+local Humanoid_2_upvr = Character_upvr:WaitForChild("Humanoid", math.huge)
+local HumanoidRootPart_upvr = Character_upvr:WaitForChild("HumanoidRootPart", math.huge)
+local RootJoint_upvr = HumanoidRootPart_upvr:WaitForChild("RootJoint", math.huge)
+local CurrentCamera_upvr = workspace.CurrentCamera
+local Live_upvr = workspace:WaitForChild("Live", math.huge)
+local Thrown_upvr = workspace:WaitForChild("Thrown", math.huge)
+local Assets_upvr = ReplicatedStorage:WaitForChild("Assets", math.huge)
+local module = require(Assets_upvr:WaitForChild("Startup", math.huge))
+local module_upvr = require(ReplicatedStorage:WaitForChild("EffectReplicator", math.huge))
+module_upvr:WaitForContainer()
+print("trying to load client")
+while true do
+	local var32_result1_upvw = module("Anti")
+	if typeof(var32_result1_upvw) == "table" then break end
+	task.wait()
+end
+local var32_result1_upvr = module("Effects")
+local module_upvr_2 = require(module("Library"))
+local module_2_upvr = require(ReplicatedStorage:WaitForChild("ClientEffects", math.huge):WaitForChild("Block", math.huge))
+local module_3_upvr = require(ReplicatedStorage:WaitForChild("EffectInfo", math.huge))
+module_upvr_2.setHumanoid(Humanoid_2_upvr)
+print("client loaded")
+local var39 = tick() - tick()
+if 1 < var39 then
+	-- KONSTANTWARNING: GOTO [210] #157
+end
+print("cloaded in (%.1fs) %s":format(var39, "second"))
+HumanoidRootPart_upvr.CollisionGroup = "CharacterPartLocal"
+HumanoidRootPart_upvr:GetPropertyChangedSignal("CollisionGroup"):Connect(function() -- Line 56
+	--[[ Upvalues[1]:
+		[1]: HumanoidRootPart_upvr (readonly)
+	]]
+	if HumanoidRootPart_upvr.CollisionGroup == "CharacterPart" then
+		HumanoidRootPart_upvr.CollisionGroup = "CharacterPartLocal"
+	end
+end)
+local FireServer_upvr = Instance.new("RemoteEvent").FireServer
+local InvokeServer_upvr = Instance.new("RemoteFunction").InvokeServer
+CurrentCamera_upvr.FieldOfView = 70
+CurrentCamera_upvr.CameraType = Enum.CameraType.Custom
+CurrentCamera_upvr.CameraSubject = Humanoid_2_upvr
+local var43_upvw = false
+for _, v_upvr in pairs(Live_upvr:GetChildren()) do
+	task.spawn(function() -- Line 79
+		--[[ Upvalues[3]:
+			[1]: Players_upvr (readonly)
+			[2]: v_upvr (readonly)
+			[3]: module_upvr_2 (readonly)
+		]]
+		if not Players_upvr:GetPlayerFromCharacter(v_upvr) then
+			local Humanoid = v_upvr:WaitForChild("Humanoid", 2)
+			if Humanoid then
+				module_upvr_2.setHumanoid(Humanoid)
+			end
+		end
+		task.wait(0.1)
+		local ForceField = v_upvr:FindFirstChild("ForceField")
+		if ForceField then
+			while v_upvr.Parent and ForceField.Parent do
+				task.wait(0.1)
+			end
+			if not v_upvr.Parent then return end
+		end
+		v_upvr:SetAttribute("Highlighted", true)
+	end)
+	local _
+end
+Live_upvr.ChildAdded:Connect(function(arg1) -- Line 78, Named "onCharacterAdded"
+	--[[ Upvalues[2]:
+		[1]: Players_upvr (readonly)
+		[2]: module_upvr_2 (readonly)
+	]]
+	task.spawn(function() -- Line 79
+		--[[ Upvalues[3]:
+			[1]: Players_upvr (copied, readonly)
+			[2]: arg1 (readonly)
+			[3]: module_upvr_2 (copied, readonly)
+		]]
+		if not Players_upvr:GetPlayerFromCharacter(arg1) then
+			local Humanoid_3 = arg1:WaitForChild("Humanoid", 2)
+			if Humanoid_3 then
+				module_upvr_2.setHumanoid(Humanoid_3)
+			end
+		end
+		task.wait(0.1)
+		local ForceField_2 = arg1:FindFirstChild("ForceField")
+		if ForceField_2 then
+			while arg1.Parent and ForceField_2.Parent do
+				task.wait(0.1)
+			end
+			if not arg1.Parent then return end
+		end
+		arg1:SetAttribute("Highlighted", true)
+	end)
+end)
+local tbl_upvr_2 = {}
+local tbl_upvr_4 = {
+	W = UserInputService_upvr:IsKeyDown(Enum.KeyCode.W);
+	A = UserInputService_upvr:IsKeyDown(Enum.KeyCode.A);
+	S = UserInputService_upvr:IsKeyDown(Enum.KeyCode.S);
+	D = UserInputService_upvr:IsKeyDown(Enum.KeyCode.D);
+	Space = UserInputService_upvr:IsKeyDown(Enum.KeyCode.Space);
+	LeftClick = false;
+	RightClick = false;
+	F = false;
+	[Enum.KeyCode.W] = time();
+	[Enum.KeyCode.A] = time();
+	[Enum.KeyCode.D] = time();
+}
+local var58_upvw = time() - 3
+local var59_upvw = time() - 3
+local var60_upvw = false
+local WalkSpeed_upvw = Humanoid_2_upvr.WalkSpeed
+for _, v_2_upvr in next, Assets_upvr:WaitForChild("Animations", math.huge):GetDescendants() do
+	if v_2_upvr:IsA("Animation") and 0 < #v_2_upvr.AnimationId and v_2_upvr.Parent.Name ~= "DivineGeneral" then
+		xpcall(function() -- Line 133
+			--[[ Upvalues[3]:
+				[1]: tbl_upvr_2 (readonly)
+				[2]: v_2_upvr (readonly)
+				[3]: Humanoid_2_upvr (readonly)
+			]]
+			tbl_upvr_2[v_2_upvr.Name] = Humanoid_2_upvr:LoadAnimation(v_2_upvr)
+		end, function(arg1) -- Line 135
+			warn("LoadAnimation error: %s":format(tostring(arg1)))
+		end)
+	end
+end
+local function _(...) -- Line 141, Named "RemoveAllEffects"
+	--[[ Upvalues[1]:
+		[1]: module_upvr (readonly)
+	]]
+	for _, v_3 in pairs(module_upvr:GetEffects()) do
+		if table.find({...}, v_3.Class) then
+			v_3:Destroy()
+		end
+	end
+end
+local tbl_upvr_3 = {}
+local any_CreateEffect_result1_upvr_4 = module_upvr:CreateEffect("Running", {
+	Value = 6;
+	Disabled = true;
+})
+local function Run_upvr(arg1) -- Line 156, Named "Run"
+	--[[ Upvalues[6]:
+		[1]: var60_upvw (read and write)
+		[2]: module_upvr (readonly)
+		[3]: tbl_upvr_2 (readonly)
+		[4]: tbl_upvr_3 (readonly)
+		[5]: WalkSpeed_upvw (read and write)
+		[6]: any_CreateEffect_result1_upvr_4 (readonly)
+	]]
+	if var60_upvw ~= arg1 then
+		var60_upvw = arg1
+		local var85
+		if var85 then
+			var85 = nil
+			if module_upvr:FindServerEffect("EquippedKatana") or module_upvr:FindServerEffect("EquippedPistol") or module_upvr:FindServerEffect("EquippedDagger") or module_upvr:FindServerEffect("EquippedSword") or module_upvr:FindServerEffect("EquippedCursedSword") or module_upvr:FindServerEffect("EquippedShadowSword") then
+				var85 = tbl_upvr_2.KatanaRun
+			else
+				var85 = tbl_upvr_2.Run
+			end
+			local any_FindServerEffect_result1_2 = module_upvr:FindServerEffect("EmoteRun")
+			if any_FindServerEffect_result1_2 then
+				var85 = tbl_upvr_2["%s_Run":format(any_FindServerEffect_result1_2.Value)]
+				if not table.find(tbl_upvr_3, var85) then
+					table.insert(tbl_upvr_3, var85)
+				end
+			end
+			var85:Play()
+			var85:AdjustSpeed(WalkSpeed_upvw / 28)
+			any_CreateEffect_result1_upvr_4.Disabled = false
+			return
+		end
+		for _, v_4 in next, tbl_upvr_3 do
+			v_4:Stop()
+		end
+		tbl_upvr_2.Run:Stop()
+		tbl_upvr_2.KatanaRun:Stop()
+		any_CreateEffect_result1_upvr_4.Disabled = true
+	end
+end
+local var87_upvw = false
+local tbl_upvr = {
+	W = function() -- Line 192
+		--[[ Upvalues[4]:
+			[1]: module_upvr (readonly)
+			[2]: var87_upvw (read and write)
+			[3]: InvokeServer_upvr (readonly)
+			[4]: var58_upvw (read and write)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [6] 6. Error Block 7 start (CF ANALYSIS FAILED)
+		if var87_upvw then
+			-- KONSTANTERROR: [8] 8. Error Block 3 start (CF ANALYSIS FAILED)
+			do
+				return
+			end
+			-- KONSTANTERROR: [8] 8. Error Block 3 end (CF ANALYSIS FAILED)
+		end
+		var87_upvw = true
+		task.spawn(function() -- Line 198
+			--[[ Upvalues[3]:
+				[1]: InvokeServer_upvr (copied, readonly)
+				[2]: var58_upvw (copied, read and write)
+				[3]: var87_upvw (copied, read and write)
+			]]
+			if InvokeServer_upvr(script.Parent.Dash, 'Q', 'W') then
+				var58_upvw = time()
+			end
+			var87_upvw = false
+		end)
+		-- KONSTANTERROR: [6] 6. Error Block 7 end (CF ANALYSIS FAILED)
+	end;
+	A = function() -- Line 206
+		--[[ Upvalues[21]:
+			[1]: Run_upvr (readonly)
+			[2]: var87_upvw (read and write)
+			[3]: LocalPlayer_upvr (readonly)
+			[4]: var59_upvw (read and write)
+			[5]: HumanoidRootPart_upvr (readonly)
+			[6]: module_upvr (readonly)
+			[7]: InvokeServer_upvr (readonly)
+			[8]: tbl_upvr_2 (readonly)
+			[9]: var32_result1_upvw (read and write)
+			[10]: CollectionService_upvr (readonly)
+			[11]: Humanoid_2_upvr (readonly)
+			[12]: Assets_upvr (readonly)
+			[13]: var32_result1_upvr (readonly)
+			[14]: Character_upvr (readonly)
+			[15]: module_3_upvr (readonly)
+			[16]: module_2_upvr (readonly)
+			[17]: Live_upvr (readonly)
+			[18]: Thrown_upvr (readonly)
+			[19]: TweenService_upvr (readonly)
+			[20]: WalkSpeed_upvw (read and write)
+			[21]: CurrentCamera_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		Run_upvr(false)
+		local var124
+		if var87_upvw then
+			var124 = "NoDashCooldown"
+			if not LocalPlayer_upvr:GetAttribute(var124) then return end
+		end
+		var59_upvw = time()
+		local children_5, NONE_upvw_2 = HumanoidRootPart_upvr:GetChildren()
+		for _, v_5 in next, children_5, NONE_upvw_2 do
+			if v_5:IsA("BodyVelocity") then
+				v_5:Destroy()
+			end
+		end
+		var87_upvw = true
+		NONE_upvw_2 = "Flashstep"
+		if module_upvr:FindServerEffect(NONE_upvw_2) then
+			task.spawn(function() -- Line 223
+				--[[ Upvalues[2]:
+					[1]: InvokeServer_upvr (copied, readonly)
+					[2]: var87_upvw (copied, read and write)
+				]]
+				InvokeServer_upvr(script.Parent.Dash, 'Q', 'A')
+				var87_upvw = false
+			end)
+		else
+			NONE_upvw_2 = "Dashed"
+			if LocalPlayer_upvr:GetAttribute("NoDashCooldown") then
+				module_upvr:CreateEffect(NONE_upvw_2):Destroy()
+			end
+			NONE_upvw_2 = tbl_upvr_2
+			NONE_upvw_2.LeftDash:Play(0.2)
+			NONE_upvw_2 = "BodyVelocity"
+			local any_upvr_2 = Instance.new(NONE_upvw_2)
+			NONE_upvw_2 = var32_result1_upvw.AddBodyMover
+			NONE_upvw_2(any_upvr_2)
+			NONE_upvw_2 = CollectionService_upvr:AddTag
+			NONE_upvw_2(any_upvr_2, "Dash")
+			if Humanoid_2_upvr.Health <= 30 then
+				NONE_upvw_2 = -90
+			else
+				NONE_upvw_2 = -100
+			end
+			local any_FindEffect_result1 = module_upvr:FindEffect("VelocityNerf")
+			if any_FindEffect_result1 and 0 < any_FindEffect_result1.Value then
+				NONE_upvw_2 /= any_FindEffect_result1.Value
+			end
+			any_upvr_2.Velocity = HumanoidRootPart_upvr.CFrame.RightVector * NONE_upvw_2
+			any_upvr_2.MaxForce = Vector3.new(500000, 0, 500000)
+			any_upvr_2.P = 7500
+			any_upvr_2.Parent = HumanoidRootPart_upvr
+			local NumberValue_upvr = Instance.new("NumberValue")
+			NumberValue_upvr.Value = NONE_upvw_2
+			NumberValue_upvr.Parent = any_upvr_2
+			local clone_9_upvr = Assets_upvr.leftdash:Clone()
+			clone_9_upvr.Parent = HumanoidRootPart_upvr
+			clone_9_upvr:Play()
+			var32_result1_upvr.AddItem(clone_9_upvr, 3)
+			local WhiteTrail = Assets_upvr:WaitForChild("WhiteTrail", math.huge)
+			local tbl_upvw_2 = {}
+			for _, v_9 in next, {"Right Arm", "Left Arm"} do
+				local SOME_2 = Character_upvr:FindFirstChild(v_9)
+				if SOME_2 then
+					for _, v_10 in next, {"Hand", "Shoulder"} do
+						for _, v_11 in next, module_3_upvr.WhiteLine[v_10] do
+							local clone_2 = WhiteTrail.A0:Clone()
+							clone_2.CFrame = v_11.A0
+							clone_2.Parent = SOME_2
+							tbl_upvw_2[clone_2] = true
+							local clone = WhiteTrail.A1:Clone()
+							clone.CFrame = v_11.A1
+							clone.Parent = SOME_2
+							tbl_upvw_2[clone] = true
+							local clone_11 = WhiteTrail['1']:Clone()
+							clone_11.Attachment0 = clone_2
+							clone_11.Attachment1 = clone
+							clone_11.Parent = SOME_2
+							tbl_upvw_2[clone_11] = true
+							local _
+						end
+					end
+				end
+			end
+			task.spawn(module_2_upvr.FollowingBlocks, {
+				Character = Character_upvr;
+				Velocity = any_upvr_2;
+				WaitTime = 0.065;
+				NoFlyingParts = true;
+				adjustX = 1.5;
+			})
+			local var144_upvw
+			var144_upvw = module_upvr.EffectAdded:Connect(function(arg1) -- Line 295
+				--[[ Upvalues[4]:
+					[1]: var144_upvw (read and write)
+					[2]: any_upvr_2 (readonly)
+					[3]: tbl_upvr_2 (copied, readonly)
+					[4]: clone_9_upvr (readonly)
+				]]
+				local Class_4 = arg1.Class
+				if Class_4 == "Stun" or Class_4 == "FullStun" or Class_4 == "CancelDash" then
+					var144_upvw:Disconnect()
+					any_upvr_2:Destroy()
+					tbl_upvr_2.LeftDash:Stop(0)
+					clone_9_upvr:Stop()
+				end
+			end)
+			local any_Connect_result1_upvw_2 = NumberValue_upvr:GetPropertyChangedSignal("Value"):Connect(function() -- Line 283
+				--[[ Upvalues[2]:
+					[1]: NONE_upvw_2 (read and write)
+					[2]: NumberValue_upvr (readonly)
+				]]
+				NONE_upvw_2 = NumberValue_upvr.Value
+			end)
+			local any_CreateEffect_result1_upvr_2 = module_upvr:CreateEffect(NONE_upvw_2)
+			task.spawn(function() -- Line 305
+				--[[ Upvalues[16]:
+					[1]: Live_upvr (copied, readonly)
+					[2]: Thrown_upvr (copied, readonly)
+					[3]: Assets_upvr (copied, readonly)
+					[4]: var32_result1_upvr (copied, readonly)
+					[5]: TweenService_upvr (copied, readonly)
+					[6]: NumberValue_upvr (readonly)
+					[7]: any_upvr_2 (readonly)
+					[8]: WalkSpeed_upvw (copied, read and write)
+					[9]: HumanoidRootPart_upvr (copied, readonly)
+					[10]: CurrentCamera_upvr (copied, readonly)
+					[11]: NONE_upvw_2 (read and write)
+					[12]: var144_upvw (read and write)
+					[13]: any_Connect_result1_upvw_2 (read and write)
+					[14]: any_CreateEffect_result1_upvr_2 (readonly)
+					[15]: tbl_upvr_2 (copied, readonly)
+					[16]: tbl_upvw_2 (read and write)
+				]]
+				-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+				local RaycastParams_new_result1_5 = RaycastParams.new()
+				RaycastParams_new_result1_5.FilterType = Enum.RaycastFilterType.Exclude
+				RaycastParams_new_result1_5.IgnoreWater = true
+				RaycastParams_new_result1_5.FilterDescendantsInstances = {Live_upvr, Thrown_upvr}
+				task.spawn(function() -- Line 314
+					--[[ Upvalues[3]:
+						[1]: var32_result1_upvr (copied, readonly)
+						[2]: TweenService_upvr (copied, readonly)
+						[3]: NumberValue_upvr (copied, readonly)
+					]]
+					var32_result1_upvr.TweenPlay(TweenService_upvr:Create(NumberValue_upvr, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+						Value = 0;
+					}))
+				end)
+				while any_upvr_2.Parent and 0 < WalkSpeed_upvw do
+					local CFrame_3 = HumanoidRootPart_upvr.CFrame
+					local CFrame_2 = CurrentCamera_upvr.CFrame
+					local _, any_ToOrientation_result2_4, _ = CFrame_2:ToOrientation()
+					local var174 = CFrame.new(CFrame_2.p) * CFrame.fromOrientation(0, any_ToOrientation_result2_4, 0)
+					local var175
+					if var175 < (time()) - (time() - 2) then
+						local workspace_Raycast_result1 = workspace:Raycast(HumanoidRootPart_upvr.Position, Vector3.new(0, -5, 0), RaycastParams_new_result1_5)
+						var175 = workspace_Raycast_result1
+						if var175 then
+							var175 = workspace_Raycast_result1.Instance
+						end
+						if var175 and var175.Transparency ~= 1 and not var175:FindFirstChild("HidingMesh") then
+							local clone_5 = Assets_upvr:WaitForChild("dashSmoke", math.huge):Clone()
+							clone_5.CFrame = CFrame.new(workspace_Raycast_result1.Position + Vector3.new(0, -0.6499, 0)) * CFrame.Angles(math.pi, 0, 0) * CFrame.fromOrientation(0, math.rad(any_ToOrientation_result2_4), 0)
+							clone_5.Parent = Thrown_upvr
+							var32_result1_upvr.AddItem(clone_5, 4)
+							for _, v_12 in next, clone_5:GetChildren() do
+								v_12.Color = ColorSequence.new(var175.Color)
+								v_12:Emit(v_12:GetAttribute("EmitCount"))
+								local _
+							end
+						end
+					end
+					HumanoidRootPart_upvr.CFrame = CFrame.new(CFrame_3.Position, CFrame_3.p + var174.LookVector * 3)
+					any_upvr_2.Velocity = var174.RightVector * NONE_upvw_2
+					task.wait()
+				end
+				any_upvr_2:Destroy()
+				var144_upvw:Disconnect()
+				any_Connect_result1_upvw_2:Disconnect()
+				any_CreateEffect_result1_upvr_2:Debris(0.1)
+				tbl_upvr_2.LeftDash:Stop(0.45)
+				for i_13, _ in next, tbl_upvw_2 do
+					if i_13:IsA("Trail") then
+						i_13.Enabled = false
+					end
+					var32_result1_upvr.AddItem(i_13, 3)
+					tbl_upvw_2[i_13] = nil
+				end
+				tbl_upvw_2 = nil
+			end)
+			var32_result1_upvr.AddItem(any_upvr_2, 0.4)
+			module_upvr:CreateEffect("Footstep"):Debris(0.3)
+			module_upvr:CreateEffect("NoJump"):Debris(0.3)
+			task.spawn(function() -- Line 366
+				--[[ Upvalues[2]:
+					[1]: InvokeServer_upvr (copied, readonly)
+					[2]: var87_upvw (copied, read and write)
+				]]
+				InvokeServer_upvr(script.Parent.Dash, 'Q', 'A')
+				var87_upvw = false
+			end)
+		end
+	end;
+	D = function() -- Line 373
+		--[[ Upvalues[21]:
+			[1]: Run_upvr (readonly)
+			[2]: var87_upvw (read and write)
+			[3]: LocalPlayer_upvr (readonly)
+			[4]: var59_upvw (read and write)
+			[5]: HumanoidRootPart_upvr (readonly)
+			[6]: module_upvr (readonly)
+			[7]: InvokeServer_upvr (readonly)
+			[8]: tbl_upvr_2 (readonly)
+			[9]: var32_result1_upvw (read and write)
+			[10]: CollectionService_upvr (readonly)
+			[11]: Humanoid_2_upvr (readonly)
+			[12]: Assets_upvr (readonly)
+			[13]: var32_result1_upvr (readonly)
+			[14]: Character_upvr (readonly)
+			[15]: module_3_upvr (readonly)
+			[16]: module_2_upvr (readonly)
+			[17]: Live_upvr (readonly)
+			[18]: Thrown_upvr (readonly)
+			[19]: TweenService_upvr (readonly)
+			[20]: WalkSpeed_upvw (read and write)
+			[21]: CurrentCamera_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		Run_upvr(false)
+		local var215
+		if var87_upvw then
+			var215 = "NoDashCooldown"
+			if not LocalPlayer_upvr:GetAttribute(var215) then return end
+		end
+		var59_upvw = time()
+		local children_2, NONE_upvw = HumanoidRootPart_upvr:GetChildren()
+		for _, v_6 in next, children_2, NONE_upvw do
+			if v_6:IsA("BodyVelocity") then
+				v_6:Destroy()
+			end
+		end
+		var87_upvw = true
+		NONE_upvw = "Flashstep"
+		if module_upvr:FindServerEffect(NONE_upvw) then
+			task.spawn(function() -- Line 390
+				--[[ Upvalues[2]:
+					[1]: InvokeServer_upvr (copied, readonly)
+					[2]: var87_upvw (copied, read and write)
+				]]
+				InvokeServer_upvr(script.Parent.Dash, 'Q', 'D')
+				var87_upvw = false
+			end)
+		else
+			NONE_upvw = "Dashed"
+			if LocalPlayer_upvr:GetAttribute("NoDashCooldown") then
+				module_upvr:CreateEffect(NONE_upvw):Destroy()
+			end
+			NONE_upvw = tbl_upvr_2
+			NONE_upvw.RightDash:Play(0.2)
+			NONE_upvw = "BodyVelocity"
+			local any_upvr = Instance.new(NONE_upvw)
+			NONE_upvw = var32_result1_upvw.AddBodyMover
+			NONE_upvw(any_upvr)
+			NONE_upvw = CollectionService_upvr:AddTag
+			NONE_upvw(any_upvr, "Dash")
+			if Humanoid_2_upvr.Health <= 30 then
+				NONE_upvw = 90
+			else
+				NONE_upvw = 100
+			end
+			local any_FindEffect_result1_3 = module_upvr:FindEffect("VelocityNerf")
+			if any_FindEffect_result1_3 and 0 < any_FindEffect_result1_3.Value then
+				NONE_upvw /= any_FindEffect_result1_3.Value
+			end
+			any_upvr.Velocity = HumanoidRootPart_upvr.CFrame.RightVector * NONE_upvw
+			any_upvr.MaxForce = Vector3.new(500000, 0, 500000)
+			any_upvr.P = 5000
+			any_upvr.Parent = HumanoidRootPart_upvr
+			local NumberValue_upvr_2 = Instance.new("NumberValue")
+			NumberValue_upvr_2.Value = NONE_upvw
+			NumberValue_upvr_2.Parent = any_upvr
+			local clone_4_upvr = Assets_upvr.rightdash:Clone()
+			clone_4_upvr.Parent = HumanoidRootPart_upvr
+			clone_4_upvr:Play()
+			var32_result1_upvr.AddItem(clone_4_upvr, 3)
+			local WhiteTrail_2 = Assets_upvr:WaitForChild("WhiteTrail", math.huge)
+			local tbl_upvw = {}
+			for _, v_14 in next, {"Right Arm", "Left Arm"} do
+				local SOME = Character_upvr:FindFirstChild(v_14)
+				if SOME then
+					for _, v_15 in next, {"Hand", "Shoulder"} do
+						for _, v_16 in next, module_3_upvr.WhiteLine[v_15] do
+							local clone_7 = WhiteTrail_2.A0:Clone()
+							clone_7.CFrame = v_16.A0
+							clone_7.Parent = SOME
+							tbl_upvw[clone_7] = true
+							local clone_12 = WhiteTrail_2.A1:Clone()
+							clone_12.CFrame = v_16.A1
+							clone_12.Parent = SOME
+							tbl_upvw[clone_12] = true
+							local clone_13 = WhiteTrail_2['1']:Clone()
+							clone_13.Attachment0 = clone_7
+							clone_13.Attachment1 = clone_12
+							clone_13.Parent = SOME
+							tbl_upvw[clone_13] = true
+							local _
+						end
+					end
+				end
+			end
+			local var234_upvw
+			var234_upvw = module_upvr.EffectAdded:Connect(function(arg1) -- Line 454
+				--[[ Upvalues[4]:
+					[1]: var234_upvw (read and write)
+					[2]: any_upvr (readonly)
+					[3]: tbl_upvr_2 (copied, readonly)
+					[4]: clone_4_upvr (readonly)
+				]]
+				local Class_2 = arg1.Class
+				if Class_2 == "Stun" or Class_2 == "FullStun" or Class_2 == "CancelDash" then
+					var234_upvw:Disconnect()
+					any_upvr:Destroy()
+					tbl_upvr_2.RightDash:Stop(0)
+					clone_4_upvr:Stop()
+				end
+			end)
+			task.spawn(module_2_upvr.FollowingBlocks, {
+				Character = Character_upvr;
+				Velocity = any_upvr;
+				WaitTime = 0.065;
+				NoFlyingParts = true;
+			})
+			local any_CreateEffect_result1_upvr_3 = module_upvr:CreateEffect(NONE_upvw)
+			local any_Connect_result1_upvw = NumberValue_upvr_2:GetPropertyChangedSignal("Value"):Connect(function() -- Line 450
+				--[[ Upvalues[2]:
+					[1]: NONE_upvw (read and write)
+					[2]: NumberValue_upvr_2 (readonly)
+				]]
+				NONE_upvw = NumberValue_upvr_2.Value
+			end)
+			task.spawn(function() -- Line 472
+				--[[ Upvalues[16]:
+					[1]: Live_upvr (copied, readonly)
+					[2]: Thrown_upvr (copied, readonly)
+					[3]: Assets_upvr (copied, readonly)
+					[4]: var32_result1_upvr (copied, readonly)
+					[5]: TweenService_upvr (copied, readonly)
+					[6]: NumberValue_upvr_2 (readonly)
+					[7]: any_upvr (readonly)
+					[8]: WalkSpeed_upvw (copied, read and write)
+					[9]: HumanoidRootPart_upvr (copied, readonly)
+					[10]: CurrentCamera_upvr (copied, readonly)
+					[11]: NONE_upvw (read and write)
+					[12]: var234_upvw (read and write)
+					[13]: any_CreateEffect_result1_upvr_3 (readonly)
+					[14]: tbl_upvr_2 (copied, readonly)
+					[15]: any_Connect_result1_upvw (read and write)
+					[16]: tbl_upvw (read and write)
+				]]
+				-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+				local RaycastParams_new_result1 = RaycastParams.new()
+				RaycastParams_new_result1.FilterType = Enum.RaycastFilterType.Exclude
+				RaycastParams_new_result1.IgnoreWater = true
+				RaycastParams_new_result1.FilterDescendantsInstances = {Live_upvr, Thrown_upvr}
+				task.spawn(function() -- Line 481
+					--[[ Upvalues[3]:
+						[1]: var32_result1_upvr (copied, readonly)
+						[2]: TweenService_upvr (copied, readonly)
+						[3]: NumberValue_upvr_2 (copied, readonly)
+					]]
+					var32_result1_upvr.TweenPlay(TweenService_upvr:Create(NumberValue_upvr_2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+						Value = 0;
+					}))
+				end)
+				while any_upvr.Parent and 0 < WalkSpeed_upvw do
+					local CFrame_7 = HumanoidRootPart_upvr.CFrame
+					local CFrame = CurrentCamera_upvr.CFrame
+					local _, any_ToOrientation_result2_2, _ = CFrame:ToOrientation()
+					local var265 = CFrame.new(CFrame.p) * CFrame.fromOrientation(0, any_ToOrientation_result2_2, 0)
+					local var266
+					if var266 < (time()) - (time() - 2) then
+						local workspace_Raycast_result1_2 = workspace:Raycast(HumanoidRootPart_upvr.Position, Vector3.new(0, -5, 0), RaycastParams_new_result1)
+						var266 = workspace_Raycast_result1_2
+						if var266 then
+							var266 = workspace_Raycast_result1_2.Instance
+						end
+						if var266 and var266.Transparency ~= 1 and not var266:FindFirstChild("HidingMesh") then
+							local clone_3 = Assets_upvr:WaitForChild("dashSmoke", math.huge):Clone()
+							clone_3.CFrame = CFrame.new(workspace_Raycast_result1_2.Position + Vector3.new(0, -0.6499, 0)) * CFrame.Angles(math.pi, 0, 0) * CFrame.fromOrientation(0, math.rad(any_ToOrientation_result2_2), 0)
+							clone_3.Parent = Thrown_upvr
+							var32_result1_upvr.AddItem(clone_3, 4)
+							for _, v_17 in next, clone_3:GetChildren() do
+								v_17.Color = ColorSequence.new(var266.Color)
+								v_17:Emit(v_17:GetAttribute("EmitCount"))
+								local _
+							end
+						end
+					end
+					HumanoidRootPart_upvr.CFrame = CFrame.new(CFrame_7.Position, CFrame_7.p + var265.LookVector * 3)
+					any_upvr.Velocity = var265.RightVector * NONE_upvw
+					task.wait()
+				end
+				var234_upvw:Disconnect()
+				any_upvr:Destroy()
+				any_CreateEffect_result1_upvr_3:Debris(0.1)
+				tbl_upvr_2.RightDash:Stop(0.45)
+				any_Connect_result1_upvw:Disconnect()
+				for i_18, _ in next, tbl_upvw do
+					if i_18:IsA("Trail") then
+						i_18.Enabled = false
+					end
+					var32_result1_upvr.AddItem(i_18, 3)
+					tbl_upvw[i_18] = nil
+				end
+				tbl_upvw = nil
+			end)
+			var32_result1_upvr.AddItem(any_upvr, 0.4)
+			module_upvr:CreateEffect("Footstep"):Debris(0.3)
+			module_upvr:CreateEffect("NoJump"):Debris(0.3)
+			task.spawn(function() -- Line 534
+				--[[ Upvalues[2]:
+					[1]: InvokeServer_upvr (copied, readonly)
+					[2]: var87_upvw (copied, read and write)
+				]]
+				InvokeServer_upvr(script.Parent.Dash, 'Q', 'D')
+				var87_upvw = false
+			end)
+		end
+	end;
+	S = function() -- Line 541
+		--[[ Upvalues[17]:
+			[1]: Run_upvr (readonly)
+			[2]: var87_upvw (read and write)
+			[3]: HumanoidRootPart_upvr (readonly)
+			[4]: module_upvr (readonly)
+			[5]: var58_upvw (read and write)
+			[6]: InvokeServer_upvr (readonly)
+			[7]: tbl_upvr_2 (readonly)
+			[8]: var32_result1_upvw (read and write)
+			[9]: CollectionService_upvr (readonly)
+			[10]: Humanoid_2_upvr (readonly)
+			[11]: var32_result1_upvr (readonly)
+			[12]: Assets_upvr (readonly)
+			[13]: module_2_upvr (readonly)
+			[14]: Character_upvr (readonly)
+			[15]: Live_upvr (readonly)
+			[16]: Thrown_upvr (readonly)
+			[17]: CurrentCamera_upvr (readonly)
+		]]
+		Run_upvr(false)
+		if var87_upvw then
+		else
+			for _, v_19 in next, HumanoidRootPart_upvr:GetChildren() do
+				if v_19:IsA("BodyVelocity") then
+					v_19:Destroy()
+				end
+			end
+			var87_upvw = true
+			if module_upvr:FindServerEffect("Flashstep") then
+				var58_upvw = time()
+				task.spawn(function() -- Line 557
+					--[[ Upvalues[2]:
+						[1]: InvokeServer_upvr (copied, readonly)
+						[2]: var87_upvw (copied, read and write)
+					]]
+					InvokeServer_upvr(script.Parent.Dash, 'Q', 'S')
+					var87_upvw = false
+				end)
+				return
+			end
+			task.spawn(function() -- Line 562
+				--[[ Upvalues[16]:
+					[1]: InvokeServer_upvr (copied, readonly)
+					[2]: module_upvr (copied, readonly)
+					[3]: var87_upvw (copied, read and write)
+					[4]: var58_upvw (copied, read and write)
+					[5]: tbl_upvr_2 (copied, readonly)
+					[6]: var32_result1_upvw (copied, read and write)
+					[7]: CollectionService_upvr (copied, readonly)
+					[8]: Humanoid_2_upvr (copied, readonly)
+					[9]: HumanoidRootPart_upvr (copied, readonly)
+					[10]: var32_result1_upvr (copied, readonly)
+					[11]: Assets_upvr (copied, readonly)
+					[12]: module_2_upvr (copied, readonly)
+					[13]: Character_upvr (copied, readonly)
+					[14]: Live_upvr (copied, readonly)
+					[15]: Thrown_upvr (copied, readonly)
+					[16]: CurrentCamera_upvr (copied, readonly)
+				]]
+				InvokeServer_upvr(script.Parent.Dash, 'Q', 'S', "Backdash")
+				local var280_upvw
+				if module_upvr:FindEffect("Stun") or module_upvr:FindEffect("FullStun") or module_upvr:FindEffect("Blocking") then
+					var87_upvw = false
+				else
+					var87_upvw = false
+					var58_upvw = time()
+					tbl_upvr_2.BackDash:Play()
+					local BodyVelocity_upvr, NONE_4_upvw = Instance.new("BodyVelocity")
+					var280_upvw = var32_result1_upvw.AddBodyMover
+					var280_upvw(BodyVelocity_upvr)
+					var280_upvw = CollectionService_upvr:AddTag
+					var280_upvw(BodyVelocity_upvr, "Dash")
+					if Humanoid_2_upvr.Health <= 30 then
+						var280_upvw = -50
+					else
+						var280_upvw = -60
+					end
+					local any_FindEffect_result1_2 = module_upvr:FindEffect("VelocityNerf")
+					if any_FindEffect_result1_2 and 0 < any_FindEffect_result1_2.Value then
+						var280_upvw /= any_FindEffect_result1_2.Value
+					end
+					BodyVelocity_upvr.Velocity = HumanoidRootPart_upvr.CFrame.LookVector * var280_upvw
+					BodyVelocity_upvr.MaxForce = Vector3.new(500000, 0, 500000)
+					BodyVelocity_upvr.P = 5000
+					BodyVelocity_upvr.Parent = HumanoidRootPart_upvr
+					var32_result1_upvr.AddItem(BodyVelocity_upvr, 0.2)
+					module_upvr:CreateEffect("Footstep"):Debris(0.5)
+					module_upvr:CreateEffect("NoJump"):Debris(0.65)
+					local any_CreateEffect_result1_upvr_7 = module_upvr:CreateEffect("Speed", {
+						Value = -100;
+					})
+					local any_CreateEffect_result1_upvr_6 = module_upvr:CreateEffect("NoRun")
+					local any_CreateEffect_result1_upvr = module_upvr:CreateEffect("NoRotate")
+					local clone_10_upvr = Assets_upvr.backdash:Clone()
+					clone_10_upvr.Parent = HumanoidRootPart_upvr
+					clone_10_upvr:Play()
+					var32_result1_upvr.AddItem(clone_10_upvr, 3)
+					task.spawn(module_2_upvr.FollowingBlocks, {
+						Character = Character_upvr;
+						Velocity = BodyVelocity_upvr;
+						WaitTime = 0.065;
+						NoFlyingParts = true;
+					})
+					local var290_upvw = false
+					local var292_upvw
+					var292_upvw = module_upvr.EffectAdded:Connect(function(arg1) -- Line 610
+						--[[ Upvalues[9]:
+							[1]: var292_upvw (read and write)
+							[2]: BodyVelocity_upvr (readonly)
+							[3]: NONE_4_upvw (read and write)
+							[4]: any_CreateEffect_result1_upvr_7 (readonly)
+							[5]: any_CreateEffect_result1_upvr_6 (readonly)
+							[6]: any_CreateEffect_result1_upvr (readonly)
+							[7]: tbl_upvr_2 (copied, readonly)
+							[8]: clone_10_upvr (readonly)
+							[9]: var290_upvw (read and write)
+						]]
+						local Class_3 = arg1.Class
+						if Class_3 == "Stun" or Class_3 == "FullStun" then
+							var292_upvw:Disconnect()
+							BodyVelocity_upvr:Destroy()
+							if NONE_4_upvw then
+								NONE_4_upvw:Destroy()
+							end
+							any_CreateEffect_result1_upvr_7:Destroy()
+							any_CreateEffect_result1_upvr_6:Destroy()
+							any_CreateEffect_result1_upvr:Destroy()
+							tbl_upvr_2.BackDash:Stop(0)
+							clone_10_upvr:Stop()
+							var290_upvw = true
+						end
+					end)
+					local RaycastParams_new_result1_6_upvr = RaycastParams.new()
+					RaycastParams_new_result1_6_upvr.FilterType = Enum.RaycastFilterType.Exclude
+					RaycastParams_new_result1_6_upvr.IgnoreWater = true
+					RaycastParams_new_result1_6_upvr.FilterDescendantsInstances = {Live_upvr, Thrown_upvr}
+					task.spawn(function() -- Line 632
+						--[[ Upvalues[8]:
+							[1]: Assets_upvr (copied, readonly)
+							[2]: BodyVelocity_upvr (readonly)
+							[3]: HumanoidRootPart_upvr (copied, readonly)
+							[4]: CurrentCamera_upvr (copied, readonly)
+							[5]: RaycastParams_new_result1_6_upvr (readonly)
+							[6]: Thrown_upvr (copied, readonly)
+							[7]: var32_result1_upvr (copied, readonly)
+							[8]: var280_upvw (read and write)
+						]]
+						-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+						while BodyVelocity_upvr.Parent do
+							local CFrame_9 = HumanoidRootPart_upvr.CFrame
+							local CFrame_4 = CurrentCamera_upvr.CFrame
+							local _, any_ToOrientation_result2_3, _ = CFrame_4:ToOrientation()
+							local var310 = CFrame.new(CFrame_4.p) * CFrame.fromOrientation(0, any_ToOrientation_result2_3, 0)
+							local var311
+							if var311 < (time()) - (time() - 10) then
+								local workspace_Raycast_result1_5 = workspace:Raycast(HumanoidRootPart_upvr.Position, Vector3.new(0, -5, 0), RaycastParams_new_result1_6_upvr)
+								var311 = workspace_Raycast_result1_5
+								if var311 then
+									var311 = workspace_Raycast_result1_5.Instance
+								end
+								if var311 and var311.Transparency ~= 1 and not var311:FindFirstChild("HidingMesh") then
+									local clone_6 = Assets_upvr:WaitForChild("dashSmoke", math.huge):Clone()
+									clone_6.CFrame = CFrame.new(workspace_Raycast_result1_5.Position + Vector3.new(0, -0.6499, 0)) * CFrame.Angles(math.pi, 0, 0) * CFrame.fromOrientation(0, math.rad(any_ToOrientation_result2_3), 0)
+									clone_6.Parent = Thrown_upvr
+									var32_result1_upvr.AddItem(clone_6, 4)
+									for _, v_20 in next, clone_6:GetChildren() do
+										v_20.Color = ColorSequence.new(var311.Color)
+										v_20:Emit(v_20:GetAttribute("EmitCount"))
+										local _
+									end
+								end
+							end
+							HumanoidRootPart_upvr.CFrame = CFrame.new(CFrame_9.Position, CFrame_9.p + var310.LookVector * 3)
+							BodyVelocity_upvr.Velocity = var310.LookVector * var280_upvw
+							task.wait()
+						end
+						BodyVelocity_upvr:Destroy()
+					end)
+					task.wait(0.2)
+					task.wait(0.05)
+					if not var290_upvw then
+						BodyVelocity_upvr:Destroy()
+						NONE_4_upvw = Instance.new("BodyVelocity")
+						local var317_upvw = NONE_4_upvw
+						var32_result1_upvw.AddBodyMover(var317_upvw)
+						CollectionService_upvr:AddTag(var317_upvw, "Dash")
+						var317_upvw.Velocity = HumanoidRootPart_upvr.CFrame.LookVector * var280_upvw
+						var317_upvw.MaxForce = Vector3.new(500000, 0, 500000)
+						var317_upvw.P = 7500
+						var317_upvw.Parent = HumanoidRootPart_upvr
+						var32_result1_upvr.AddItem(var317_upvw, 0.35)
+						task.spawn(module_2_upvr.FollowingBlocks, {
+							Character = Character_upvr;
+							Velocity = var317_upvw;
+							WaitTime = 0.085;
+							NoFlyingParts = true;
+							adjustX = 1.5;
+						})
+						local any_CreateEffect_result1_upvr_5 = module_upvr:CreateEffect("Dashed")
+						task.spawn(function() -- Line 690
+							--[[ Upvalues[14]:
+								[1]: Assets_upvr (copied, readonly)
+								[2]: var317_upvw (read and write)
+								[3]: HumanoidRootPart_upvr (copied, readonly)
+								[4]: CurrentCamera_upvr (copied, readonly)
+								[5]: RaycastParams_new_result1_6_upvr (readonly)
+								[6]: Thrown_upvr (copied, readonly)
+								[7]: var32_result1_upvr (copied, readonly)
+								[8]: var280_upvw (read and write)
+								[9]: var292_upvw (read and write)
+								[10]: BodyVelocity_upvr (readonly)
+								[11]: any_CreateEffect_result1_upvr_5 (readonly)
+								[12]: any_CreateEffect_result1_upvr_7 (readonly)
+								[13]: any_CreateEffect_result1_upvr_6 (readonly)
+								[14]: any_CreateEffect_result1_upvr (readonly)
+							]]
+							-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+							while var317_upvw.Parent do
+								local CFrame_6 = HumanoidRootPart_upvr.CFrame
+								local CFrame_5 = CurrentCamera_upvr.CFrame
+								local _, any_ToOrientation_result2, _ = CFrame_5:ToOrientation()
+								local var334 = CFrame.new(CFrame_5.p) * CFrame.fromOrientation(0, any_ToOrientation_result2, 0)
+								local var335
+								if var335 < (time()) - (time() - 10) then
+									local workspace_Raycast_result1_4 = workspace:Raycast(HumanoidRootPart_upvr.Position, Vector3.new(0, -5, 0), RaycastParams_new_result1_6_upvr)
+									var335 = workspace_Raycast_result1_4
+									if var335 then
+										var335 = workspace_Raycast_result1_4.Instance
+									end
+									if var335 and var335.Transparency ~= 1 and not var335:FindFirstChild("HidingMesh") then
+										local clone_8 = Assets_upvr:WaitForChild("dashSmoke", math.huge):Clone()
+										clone_8.CFrame = CFrame.new(workspace_Raycast_result1_4.Position + Vector3.new(0, -0.6499, 0)) * CFrame.Angles(math.pi, 0, 0) * CFrame.fromOrientation(0, math.rad(any_ToOrientation_result2), 0)
+										clone_8.Parent = Thrown_upvr
+										var32_result1_upvr.AddItem(clone_8, 4)
+										for _, v_21 in next, clone_8:GetChildren() do
+											v_21.Color = ColorSequence.new(var335.Color)
+											v_21:Emit(v_21:GetAttribute("EmitCount"))
+											local _
+										end
+									end
+								end
+								HumanoidRootPart_upvr.CFrame = CFrame.new(CFrame_6.Position, CFrame_6.p + var334.LookVector * 3)
+								var317_upvw.Velocity = var334.LookVector * var280_upvw
+								task.wait()
+							end
+							var292_upvw:Disconnect()
+							BodyVelocity_upvr:Destroy()
+							any_CreateEffect_result1_upvr_5:Debris(0.1)
+							any_CreateEffect_result1_upvr_7:Destroy()
+							any_CreateEffect_result1_upvr_6:Destroy()
+							any_CreateEffect_result1_upvr:Destroy()
+						end)
+					else
+						any_CreateEffect_result1_upvr_5:Debris(0.1)
+					end
+				end
+			end)
+		end
+	end;
+}
+UserInputService_upvr.InputBegan:Connect(function(arg1, arg2) -- Line 736
+	--[[ Upvalues[15]:
+		[1]: UserInputService_upvr (readonly)
+		[2]: tbl_upvr_4 (readonly)
+		[3]: module_upvr (readonly)
+		[4]: var43_upvw (read and write)
+		[5]: WalkSpeed_upvw (read and write)
+		[6]: GuiService_upvr (readonly)
+		[7]: Humanoid_2_upvr (readonly)
+		[8]: HumanoidRootPart_upvr (readonly)
+		[9]: LocalPlayer_upvr (readonly)
+		[10]: var58_upvw (read and write)
+		[11]: InvokeServer_upvr (readonly)
+		[12]: tbl_upvr (readonly)
+		[13]: var59_upvw (read and write)
+		[14]: FireServer_upvr (readonly)
+		[15]: Run_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 206 start (CF ANALYSIS FAILED)
+	local var342
+	if arg1.KeyCode ~= Enum.KeyCode.ButtonA then
+		var342 = false
+	else
+		var342 = true
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 206 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [9] 7. Error Block 5 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [9] 7. Error Block 5 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [10] 8. Error Block 193 start (CF ANALYSIS FAILED)
+	if UserInputService_upvr:GetFocusedTextBox() then
+		-- KONSTANTERROR: [15] 12. Error Block 8 start (CF ANALYSIS FAILED)
+		do
+			return
+		end
+		-- KONSTANTERROR: [15] 12. Error Block 8 end (CF ANALYSIS FAILED)
+	end
+	-- KONSTANTERROR: [10] 8. Error Block 193 end (CF ANALYSIS FAILED)
+end)
+script.Parent:WaitForChild("RequestDash", math.huge).OnClientInvoke = function(arg1) -- Line 893
+	--[[ Upvalues[2]:
+		[1]: module_upvr (readonly)
+		[2]: tbl_upvr (readonly)
+	]]
+	if not module_upvr:FindEffect("Stun") then
+		if not module_upvr:FindEffect("HitProgress") and not module_upvr:FindEffect("FullStun") and not module_upvr:FindEffect("Blocking") then
+			tbl_upvr[arg1]()
+		end
+	end
+end
+script.Parent:WaitForChild("DashClient", math.huge).Event:Connect(function(arg1) -- Line 899
+	--[[ Upvalues[8]:
+		[1]: module_upvr (readonly)
+		[2]: var43_upvw (read and write)
+		[3]: WalkSpeed_upvw (read and write)
+		[4]: LocalPlayer_upvr (readonly)
+		[5]: var58_upvw (read and write)
+		[6]: InvokeServer_upvr (readonly)
+		[7]: tbl_upvr (readonly)
+		[8]: var59_upvw (read and write)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var353
+	if var353 then
+		var353 = not module_upvr:FindEffect("CancelRagdoll")
+	end
+	if module_upvr:FindServerEffect("Flashstep") then
+	end
+	local var354
+	local function INLINED() -- Internal function, doesn't exist in bytecode
+		var354 = module_upvr:FindEffect("FullStun")
+		return var354
+	end
+	local function INLINED_2() -- Internal function, doesn't exist in bytecode
+		var354 = module_upvr:FindEffect("Blocking")
+		return var354
+	end
+	local function INLINED_3() -- Internal function, doesn't exist in bytecode
+		var354 = module_upvr:FindEffect("NoRotate")
+		return var354
+	end
+	local function INLINED_4() -- Internal function, doesn't exist in bytecode
+		var354 = module_upvr:FindEffect("Dashed")
+		return var354
+	end
+	if not var354 and not INLINED() and not INLINED_2() and not INLINED_3() and not INLINED_4() or var353 then
+		var354 = module_upvr:FindEffect("Emote")
+		if var354 then return end
+		var354 = false
+		for i_7, v_7 in next, module_upvr:GetEffects() do
+			if v_7.Class == "HitProgress" and (not v_7.Value or v_7.Value ~= "CanDash") then
+				var354 = true
+			end
+		end
+		if var354 then return end
+		if var43_upvw then return end
+		if not var353 and WalkSpeed_upvw <= 0 then return end
+		if arg1 == 'W' then
+			if not LocalPlayer_upvr:GetAttribute("NoDashCooldown") and time() - var58_upvw <= 5 then
+			else
+				if var353 then
+					i_7 = script
+					i_7 = 'W'
+					return InvokeServer_upvr(i_7.Parent.Dash, 'Q', i_7)
+				end
+				tbl_upvr.W()
+			end
+		end
+		if arg1 == 'A' and (0.6 < time() - var59_upvw or LocalPlayer_upvr:GetAttribute("NoDashCooldown")) then
+			if var353 then
+				i_7 = script
+				i_7 = 'A'
+				return InvokeServer_upvr(i_7.Parent.Dash, 'Q', i_7)
+			end
+			tbl_upvr.A()
+			return
+		end
+		local function INLINED_5() -- Internal function, doesn't exist in bytecode
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			return 0.6 < time() - var59_upvw
+		end
+		if arg1 == 'D' and (INLINED_5() or LocalPlayer_upvr:GetAttribute("NoDashCooldown")) then
+			if var353 then
+				i_7 = script
+				i_7 = 'D'
+				return InvokeServer_upvr(i_7.Parent.Dash, 'Q', i_7)
+			end
+			tbl_upvr.D()
+			return
+		end
+		if arg1 == 'S' then
+			local time_result1 = time()
+			if true then
+				time_result1 = 0.6
+			else
+				time_result1 = 5
+			end
+			if time_result1 < time_result1 - var58_upvw or LocalPlayer_upvr:GetAttribute("NoDashCooldown") then
+				if var353 then
+					i_7 = script
+					i_7 = 'S'
+					return InvokeServer_upvr(i_7.Parent.Dash, 'Q', i_7)
+				end
+				tbl_upvr.S()
+			end
+		end
+	end
+end)
+script.Parent:WaitForChild("Downslam", math.huge).OnClientInvoke = function(arg1, arg2) -- Line 966
+	--[[ Upvalues[2]:
+		[1]: Live_upvr (readonly)
+		[2]: HumanoidRootPart_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local RaycastParams_new_result1_4 = RaycastParams.new()
+	RaycastParams_new_result1_4.FilterType = Enum.RaycastFilterType.Exclude
+	RaycastParams_new_result1_4.IgnoreWater = true
+	RaycastParams_new_result1_4.FilterDescendantsInstances = {Live_upvr}
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [61] 41. Error Block 14 start (CF ANALYSIS FAILED)
+	task.wait()
+	-- KONSTANTERROR: [61] 41. Error Block 14 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [26] 17. Error Block 2 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	-- KONSTANTERROR: [26] 17. Error Block 2 end (CF ANALYSIS FAILED)
+end
+local RaycastParams_new_result1_3_upvr = RaycastParams.new()
+RaycastParams_new_result1_3_upvr.FilterType = Enum.RaycastFilterType.Exclude
+RaycastParams_new_result1_3_upvr.IgnoreWater = true
+RaycastParams_new_result1_3_upvr.FilterDescendantsInstances = {Live_upvr, Thrown_upvr}
+script.Parent:WaitForChild("RagdollCalculate", math.huge).OnClientInvoke = function(arg1) -- Line 999
+	--[[ Upvalues[6]:
+		[1]: module_upvr (readonly)
+		[2]: Character_upvr (readonly)
+		[3]: HumanoidRootPart_upvr (readonly)
+		[4]: RaycastParams_new_result1_3_upvr (readonly)
+		[5]: Thrown_upvr (readonly)
+		[6]: var32_result1_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local var364
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [8] 6. Error Block 42 start (CF ANALYSIS FAILED)
+	if var364 and var364 < 0.1 then
+		-- KONSTANTERROR: [12] 9. Error Block 4 start (CF ANALYSIS FAILED)
+		var364 = 0.1
+		-- KONSTANTERROR: [12] 9. Error Block 4 end (CF ANALYSIS FAILED)
+	end
+	if var364 and 0 < var364 then
+		task.wait(var364)
+	end
+	local _, _ = module_upvr:GetEffects()
+	-- KONSTANTERROR: [8] 6. Error Block 42 end (CF ANALYSIS FAILED)
+end
+script.Parent:WaitForChild("GetClosestEnemy", math.huge).OnClientInvoke = function(arg1) -- Line 1085
+	--[[ Upvalues[6]:
+		[1]: GuiService_upvr (readonly)
+		[2]: UserInputService_upvr (readonly)
+		[3]: CurrentCamera_upvr (readonly)
+		[4]: Character_upvr (readonly)
+		[5]: Live_upvr (readonly)
+		[6]: HumanoidRootPart_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 63 start (CF ANALYSIS FAILED)
+	if not arg1.IgnoreList then
+	end
+	if GuiService_upvr:IsTenFootInterface() or UserInputService_upvr.GamepadEnabled or UserInputService_upvr.TouchEnabled then
+		local _ = CurrentCamera_upvr.ViewportSize
+	else
+	end
+	local children_3, NONE = Live_upvr:GetChildren()
+	-- KONSTANTERROR: [0] 1. Error Block 63 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [194] 141. Error Block 47 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [194] 141. Error Block 47 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [67] 49. Error Block 11 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [194.15]
+	-- KONSTANTERROR: [67] 49. Error Block 11 end (CF ANALYSIS FAILED)
+end
+script.Parent:WaitForChild("GetClosestWithMouse", math.huge).OnClientInvoke = function(arg1) -- Line 1168
+	--[[ Upvalues[6]:
+		[1]: GuiService_upvr (readonly)
+		[2]: UserInputService_upvr (readonly)
+		[3]: CurrentCamera_upvr (readonly)
+		[4]: HumanoidRootPart_upvr (readonly)
+		[5]: Character_upvr (readonly)
+		[6]: Live_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 86 start (CF ANALYSIS FAILED)
+	local var372
+	if GuiService_upvr:IsTenFootInterface() or UserInputService_upvr.GamepadEnabled or UserInputService_upvr.TouchEnabled then
+		local ViewportSize = CurrentCamera_upvr.ViewportSize
+		var372 = Vector2.new(ViewportSize.X / 2, ViewportSize.Y / 2)
+	else
+		var372 = UserInputService_upvr:GetMouseLocation()
+	end
+	if not arg1.IgnoreList then
+	end
+	local children_4, NONE_7 = Live_upvr:GetChildren()
+	-- KONSTANTERROR: [0] 1. Error Block 86 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [245] 179. Error Block 59 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [245] 179. Error Block 59 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [82] 58. Error Block 11 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [245.20]
+	-- KONSTANTERROR: [82] 58. Error Block 11 end (CF ANALYSIS FAILED)
+end
+local RaycastParams_new_result1_2_upvr = RaycastParams.new()
+RaycastParams_new_result1_2_upvr.FilterType = Enum.RaycastFilterType.Exclude
+RaycastParams_new_result1_2_upvr.IgnoreWater = true
+RaycastParams_new_result1_2_upvr.FilterDescendantsInstances = {Thrown_upvr}
+local mouse_upvr = LocalPlayer_upvr:GetMouse()
+script.Parent:WaitForChild("GetMouse", math.huge).OnClientInvoke = function() -- Line 1314
+	--[[ Upvalues[5]:
+		[1]: GuiService_upvr (readonly)
+		[2]: UserInputService_upvr (readonly)
+		[3]: CurrentCamera_upvr (readonly)
+		[4]: RaycastParams_new_result1_2_upvr (readonly)
+		[5]: mouse_upvr (readonly)
+	]]
+	if GuiService_upvr:IsTenFootInterface() or UserInputService_upvr.GamepadEnabled or UserInputService_upvr.TouchEnabled then
+		local CFrame_8 = CurrentCamera_upvr.CFrame
+		local var381 = CFrame_8.LookVector * 5000
+		local workspace_Raycast_result1_3 = workspace:Raycast(CFrame_8.p, var381, RaycastParams_new_result1_2_upvr)
+		if workspace_Raycast_result1_3 then
+			local Position = workspace_Raycast_result1_3.Position
+			return {
+				Hit = {
+					p = Position;
+					Position = Position;
+				};
+				Target = workspace_Raycast_result1_3.Instance;
+			}
+		end
+		return {
+			Hit = {
+				p = CFrame_8.Position + var381;
+				Position = CFrame_8.Position + var381;
+			};
+			Target = nil;
+		}
+	end
+	return {
+		Hit = mouse_upvr.Hit;
+		Target = mouse_upvr.Target;
+	}
+end
+Assets_upvr.ClearVelocity.OnClientEvent:Connect(function(arg1, arg2) -- Line 1345
+	--[[ Upvalues[2]:
+		[1]: HumanoidRootPart_upvr (readonly)
+		[2]: var32_result1_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local pairs_result1, pairs_result2, pairs_result3 = pairs(HumanoidRootPart_upvr:GetChildren())
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [69] 53. Error Block 21 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [69] 53. Error Block 21 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [8] 7. Error Block 35 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [69.7]
+	local function INLINED_6() -- Internal function, doesn't exist in bytecode
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		return nil
+	end
+	local function INLINED_7() -- Internal function, doesn't exist in bytecode
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		return nil
+	end
+	if nil or INLINED_6() or INLINED_7() then
+		if arg1 then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if nil then
+				if arg2 then
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					if nil ~= "ForwardDash" then
+						-- KONSTANTWARNING: GOTO [69] #53
+					end
+				else
+				end
+				-- KONSTANTWARNING: GOTO [69] #53
+			end
+		else
+		end
+	else
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		if nil and not arg1 then
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [69.8]
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [69.9]
+			for _, _ in nil do
+				-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [69.12]
+				if nil then
+				end
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			end
+		end
+	end
+	-- KONSTANTERROR: [8] 7. Error Block 35 end (CF ANALYSIS FAILED)
+end)
+UserInputService_upvr.InputEnded:Connect(function(arg1, arg2) -- Line 1373
+	--[[ Upvalues[3]:
+		[1]: UserInputService_upvr (readonly)
+		[2]: tbl_upvr_4 (readonly)
+		[3]: FireServer_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 53 start (CF ANALYSIS FAILED)
+	local var396
+	if arg1.KeyCode ~= Enum.KeyCode.ButtonA then
+		var396 = false
+	else
+		var396 = true
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 53 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [9] 7. Error Block 5 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [9] 7. Error Block 5 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [10] 8. Error Block 51 start (CF ANALYSIS FAILED)
+	if UserInputService_upvr:GetFocusedTextBox() then
+		-- KONSTANTERROR: [15] 12. Error Block 8 start (CF ANALYSIS FAILED)
+		do
+			return
+		end
+		-- KONSTANTERROR: [15] 12. Error Block 8 end (CF ANALYSIS FAILED)
+	end
+	if arg1.KeyCode == Enum.KeyCode.W then
+		tbl_upvr_4.W = false
+	else
+		if arg1.KeyCode == Enum.KeyCode.A then
+			tbl_upvr_4.A = false
+			return
+		end
+		if arg1.KeyCode == Enum.KeyCode.S then
+			tbl_upvr_4.S = false
+			return
+		end
+		if arg1.KeyCode == Enum.KeyCode.D then
+			tbl_upvr_4.D = false
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.MouseButton1 or arg1.KeyCode == Enum.KeyCode.ButtonB then
+			tbl_upvr_4.LeftClick = false
+			FireServer_upvr(script.Parent.LeftClick, false)
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.MouseButton2 then
+			tbl_upvr_4.RightClick = false
+			return
+		end
+		if arg1.KeyCode == Enum.KeyCode.F or arg1.KeyCode == Enum.KeyCode.ButtonX then
+			tbl_upvr_4.F = false
+			FireServer_upvr(script.Parent.Block, false)
+			return
+		end
+		if arg1.KeyCode == Enum.KeyCode.Space or var396 then
+			tbl_upvr_4.Space = false
+			FireServer_upvr(script.Parent.Space, false)
+		end
+		-- KONSTANTERROR: [10] 8. Error Block 51 end (CF ANALYSIS FAILED)
+	end
+end)
+if LocalPlayer_upvr:GetAttribute("AutoRun") then
+	-- KONSTANTWARNING: GOTO [712] #531
+end
+local var397_upvw = false
+LocalPlayer_upvr:GetAttributeChangedSignal("AutoRun"):Connect(function() -- Line 1406
+	--[[ Upvalues[2]:
+		[1]: var397_upvw (read and write)
+		[2]: LocalPlayer_upvr (readonly)
+	]]
+	var397_upvw = LocalPlayer_upvr:GetAttribute("AutoRun")
+end)
+LocalPlayer_upvr:SetAttribute("InDialogue", false)
+local var399_upvw = false
+module_upvr.EffectAdded:Connect(function(arg1) -- Line 1413
+	--[[ Upvalues[3]:
+		[1]: tbl_upvr_2 (readonly)
+		[2]: LocalPlayer_upvr (readonly)
+		[3]: var399_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local Class = arg1.Class
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [10] 7. Error Block 3 start (CF ANALYSIS FAILED)
+	tbl_upvr_2.NunchukuIdle:Play()
+	do
+		return
+	end
+	-- KONSTANTERROR: [10] 7. Error Block 3 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [17] 12. Error Block 11 start (CF ANALYSIS FAILED)
+	if Class == "InDialogue" then
+		LocalPlayer_upvr:SetAttribute("InDialogue", true)
+		return
+	end
+	if Class == "InfiniteStunPatch" then
+		var399_upvw = true
+	end
+	-- KONSTANTERROR: [17] 12. Error Block 11 end (CF ANALYSIS FAILED)
+end)
+module_upvr.EffectRemoving:Connect(function(arg1) -- Line 1426
+	--[[ Upvalues[5]:
+		[1]: var60_upvw (read and write)
+		[2]: tbl_upvr_2 (readonly)
+		[3]: module_upvr (readonly)
+		[4]: LocalPlayer_upvr (readonly)
+		[5]: var399_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local Class_5 = arg1.Class
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [22] 17. Error Block 6 start (CF ANALYSIS FAILED)
+	tbl_upvr_2.KatanaRun:Stop()
+	tbl_upvr_2.Run:Play()
+	tbl_upvr_2.NunchukuIdle:Stop()
+	do
+		return
+	end
+	-- KONSTANTERROR: [22] 17. Error Block 6 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [41] 30. Error Block 19 start (CF ANALYSIS FAILED)
+	if Class_5 == "EquippedNunchuku" then
+		tbl_upvr_2.NunchukuIdle:Stop()
+		return
+	end
+	if Class_5 == "InDialogue" and task.wait() and not module_upvr:FindEffect("InDialogue") then
+		LocalPlayer_upvr:SetAttribute("InDialogue", false)
+		return
+	end
+	if Class_5 == "InfiniteStunPatch" then
+		var399_upvw = false
+	end
+	-- KONSTANTERROR: [41] 30. Error Block 19 end (CF ANALYSIS FAILED)
+end)
+if LocalPlayer_upvr:GetAttribute("NoStun") then
+	local _ = true
+else
+end
+local var406_upvw = false
+LocalPlayer_upvr:GetAttributeChangedSignal("NoStun"):Connect(function() -- Line 1445
+	--[[ Upvalues[2]:
+		[1]: var406_upvw (read and write)
+		[2]: LocalPlayer_upvr (readonly)
+	]]
+	local var407
+	if LocalPlayer_upvr:GetAttribute("NoStun") then
+		var407 = true
+	else
+		var407 = false
+	end
+	var406_upvw = var407
+end)
+local time_result1_upvw = time()
+local Globa_l_upvr = ReplicatedStorage:WaitForChild("Globa_l", math.huge)
+local SwingSpeed_upvr = Character_upvr:WaitForChild("SwingSpeed", math.huge)
+local Dead_upvr = Character_upvr:WaitForChild("Dead", math.huge)
+local Freefall_upvr = Enum.HumanoidStateType.Freefall
+local GetXZ_upvr = var32_result1_upvr.GetXZ
+local any_CreateEffect_result1_upvr_8 = module_upvr:CreateEffect("Speed", {
+	Value = -100;
+	Disabled = true;
+})
+local TouchEnabled_upvr = UserInputService_upvr.TouchEnabled
+local C0_upvr = RootJoint_upvr.C0
+local Angles_upvr = CFrame.Angles
+game:GetService("RunService").RenderStepped:Connect(function(arg1) -- Line 1455
+	--[[ Upvalues[27]:
+		[1]: time_result1_upvw (read and write)
+		[2]: FireServer_upvr (readonly)
+		[3]: Globa_l_upvr (readonly)
+		[4]: Humanoid_2_upvr (readonly)
+		[5]: module_upvr (readonly)
+		[6]: var406_upvw (read and write)
+		[7]: var399_upvw (read and write)
+		[8]: SwingSpeed_upvr (readonly)
+		[9]: var43_upvw (read and write)
+		[10]: Dead_upvr (readonly)
+		[11]: var60_upvw (read and write)
+		[12]: WalkSpeed_upvw (read and write)
+		[13]: Freefall_upvr (readonly)
+		[14]: tbl_upvr_2 (readonly)
+		[15]: tbl_upvr_3 (readonly)
+		[16]: GetXZ_upvr (readonly)
+		[17]: HumanoidRootPart_upvr (readonly)
+		[18]: Run_upvr (readonly)
+		[19]: any_CreateEffect_result1_upvr_8 (readonly)
+		[20]: GuiService_upvr (readonly)
+		[21]: UserInputService_upvr (readonly)
+		[22]: var397_upvw (read and write)
+		[23]: TouchEnabled_upvr (readonly)
+		[24]: tbl_upvr_4 (readonly)
+		[25]: RootJoint_upvr (readonly)
+		[26]: C0_upvr (readonly)
+		[27]: Angles_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	pcall(function() -- Line 1456
+		--[[ Upvalues[4]:
+			[1]: time_result1_upvw (copied, read and write)
+			[2]: FireServer_upvr (copied, readonly)
+			[3]: Globa_l_upvr (copied, readonly)
+			[4]: Humanoid_2_upvr (copied, readonly)
+		]]
+		if 60 < time() - time_result1_upvw then
+			time_result1_upvw = time()
+			local var421_upvw = false
+			xpcall(function() -- Line 1460
+				game:rawr()
+				while true do
+				end
+			end, function() -- Line 1463
+				--[[ Upvalues[1]:
+					[1]: var421_upvw (read and write)
+				]]
+				var421_upvw = true
+			end)
+			if not var421_upvw then
+				FireServer_upvr(Globa_l_upvr, 6)
+				task.wait(3)
+				while true do
+				end
+			end
+			var421_upvw = false
+			local var424_upvw = var421_upvw
+			xpcall(function() -- Line 1474
+				return game[{}]
+			end, function() -- Line 1476
+				--[[ Upvalues[1]:
+					[1]: var424_upvw (read and write)
+				]]
+				var424_upvw = true
+			end)
+			if not var424_upvw then
+				FireServer_upvr(Globa_l_upvr, 5)
+				task.wait(3)
+				while true do
+				end
+			end
+			var424_upvw = false
+			local var427_upvw = var424_upvw
+			xpcall(function() -- Line 1487
+				return game.CoreGui.RobloxGui
+			end, function() -- Line 1489
+				--[[ Upvalues[1]:
+					[1]: var427_upvw (read and write)
+				]]
+				var427_upvw = true
+			end)
+			if not var427_upvw then
+				FireServer_upvr(Globa_l_upvr, 4)
+				task.wait(3)
+				while true do
+				end
+			end
+			xpcall(function() -- Line 1499
+				return game.WalkSpeed
+			end, function() -- Line 1501
+				--[[ Upvalues[1]:
+					[1]: var427_upvw (read and write)
+				]]
+				var427_upvw = true
+			end)
+			if not var427_upvw then
+				FireServer_upvr(Globa_l_upvr, 3)
+				task.wait(3)
+				while true do
+				end
+			end
+			xpcall(function() -- Line 1511
+				return game.JumpPower
+			end, function() -- Line 1513
+				--[[ Upvalues[1]:
+					[1]: var427_upvw (read and write)
+				]]
+				var427_upvw = true
+			end)
+			if not var427_upvw then
+				FireServer_upvr(Globa_l_upvr, 2)
+				task.wait(3)
+				while true do
+				end
+			end
+			if 51 < Humanoid_2_upvr.JumpPower then
+				FireServer_upvr(Globa_l_upvr, 1)
+				task.wait(3)
+				while true do
+				end
+			end
+		end
+	end)
+	local any_GetEffects_result1, any_GetEffects_result2 = module_upvr:GetEffects()
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [122] 98. Error Block 42 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [122] 98. Error Block 42 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [25] 23. Error Block 171 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [122.18]
+	if not nil then
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [122.16]
+		local function INLINED_8() -- Internal function, doesn't exist in bytecode
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			return nil == "Speed"
+		end
+		if nil == "Running" or INLINED_8() then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [122.19]
+			if nil < nil then
+				if not nil then
+					-- KONSTANTWARNING: GOTO [122] #98
+				end
+			else
+			end
+		else
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if nil == "Stun" then
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+				if not nil and not nil then
+					-- KONSTANTWARNING: GOTO [122] #98
+				end
+			else
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if nil == "HitProgress" then
+				else
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					if nil == "FullStun" then
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						if not nil then
+							-- KONSTANTWARNING: GOTO [122] #98
+						end
+					else
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						if nil == "Blocking" then
+						else
+							-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+							if nil == "NoRotate" then
+								-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+								if not nil then
+									-- KONSTANTWARNING: GOTO [122] #98
+								end
+							else
+								-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+								if nil == "NoJump" then
+									-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+									if not nil then
+										-- KONSTANTWARNING: GOTO [122] #98
+									end
+								else
+									-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+									if nil == "Unconscious" then
+									else
+										-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+										if nil == "NoRun" or nil == "Blocking" then
+										else
+											-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+											if nil == "Welded" then
+											else
+												-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+												if nil == "InDialogue" then
+												else
+													-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+													if nil == "Emote" then
+													else
+														-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+														if nil == "EmoteRun" then
+														end
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	-- KONSTANTERROR: [25] 23. Error Block 171 end (CF ANALYSIS FAILED)
+end)
